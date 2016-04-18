@@ -63,6 +63,7 @@ class Ventana(QtGui.QWidget):
         self.lineEdit6.setText("")
         self.button1.clicked.connect(self.iniciarBase)
         self.button2.clicked.connect(self.insertarNuevoUsuario)
+        self.button3.clicked.connect(self.registrandoNuevoUsuario)
         self.button4.clicked.connect(self.cargarVentanaInicial)
         self.button5.clicked.connect(self.interfazBaseDatos)
 
@@ -185,9 +186,21 @@ class Ventana(QtGui.QWidget):
 
     def interfazBaseDatos(self):
         self.resize(800, 600)
-        self.move(220,50)
+        self.move(220, 50)
         self.label4.hide()
         self.button5.hide()
+
+    def registrandoNuevoUsuario(self):
+        nombreUsuario = str(self.lineEdit1.text())
+        direccionUsuario = str(self.lineEdit2.text())
+        municipioUsuario = str(self.lineEdit3.text())
+        estadoUsuario = str(self.lineEdit4.text())
+        correoUsuario= str(self.lineEdit5.text())
+        contrasenaUsuario = str(self.lineEdit6.text())
+        self.cursor.execute("""INSERT INTO usuario (username, direccion, municipio, estado, email, contrasena) VALUES('%s','%s','%s','%s','%s','%s')""" % (nombreUsuario,direccionUsuario, municipioUsuario, estadoUsuario, correoUsuario,contrasenaUsuario))
+        self.conn.commit()
+        self.cargarVentanaInicial()
+
 
 app = QtGui.QApplication(sys.argv)
 
