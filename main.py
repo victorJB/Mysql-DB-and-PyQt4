@@ -38,6 +38,7 @@ class Ventana(QtGui.QWidget):
         self.lineEdit5 = QtGui.QLineEdit(self)
         self.lineEdit6 = QtGui.QLineEdit(self)
         self.lineEdit7 = QtGui.QLineEdit(self)
+        self.lineEdit8 = QtGui.QLineEdit(self)
         self.textEdit1 = QtGui.QTextEdit("",self)
         self.textEdit1.setGeometry(20, 60, 650 , 500)
         self.textEdit1.hide()
@@ -56,6 +57,8 @@ class Ventana(QtGui.QWidget):
         self.lineEdit4.hide()
         self.lineEdit5.hide()
         self.lineEdit6.hide()
+        self.lineEdit7.hide()
+        self.lineEdit8.hide()
         self.button3.hide()
         self.button4.hide()
         self.button5.hide()
@@ -69,7 +72,9 @@ class Ventana(QtGui.QWidget):
         self.lineEdit5.setText("")
         self.lineEdit6.setText("")
         self.lineEdit7.setText("")
-        self.lineEdit7.hide()
+        self.lineEdit8.setText("")
+        self.lineEdit2.setEchoMode(QtGui.QLineEdit.Password)
+        self.lineEdit8.setEchoMode(QtGui.QLineEdit.Password)
         self.button1.clicked.connect(self.iniciarBase)
         self.button2.clicked.connect(self.insertarNuevoUsuario)
         self.button3.clicked.connect(self.registrandoNuevoUsuario)
@@ -79,6 +84,8 @@ class Ventana(QtGui.QWidget):
         self.button7.clicked.connect(self.cargarVentanaInicial)
         self.button6.move(680,80)
         self.button7.hide()
+        self.contraVentanaInicial = ""
+        self.contraRegistro = ""
 
         #self.cursor.execute("SELECT * from usuario")
         #renglon = self.cursor.fetchall()
@@ -109,26 +116,29 @@ class Ventana(QtGui.QWidget):
         self.lineEdit5.setVisible(True)
         self.lineEdit6.setVisible(True)
         self.lineEdit1.setGeometry(180, 80, 250, 20)
-        self.lineEdit2.setGeometry(180, 120, 250, 20)
-        self.lineEdit3.setGeometry(180, 160, 250, 20)
-        self.lineEdit4.setGeometry(180, 200, 250, 20)
-        self.lineEdit5.setGeometry(180, 240, 250, 20)
-        self.lineEdit6.setGeometry(180, 280, 250, 20)
+        self.lineEdit8.setGeometry(180, 280, 250, 20)
+        self.lineEdit3.setGeometry(180, 120, 250, 20)
+        self.lineEdit4.setGeometry(180, 160, 250, 20)
+        self.lineEdit5.setGeometry(180, 200, 250, 20)
+        self.lineEdit6.setGeometry(180, 240, 250, 20)
         self.button1.hide()
         self.button2.hide()
         self.button5.hide()
+        self.lineEdit2.hide()
         self.button3.setVisible(True)
         self.button4.setVisible(True)
         self.button4.move(310, 340)
         self.button3.move(210, 340)
         self.lineEdit1.setText("")
-        self.lineEdit2.setText("")
+        self.lineEdit8.setText("")
         self.lineEdit3.setText("")
         self.lineEdit4.setText("")
         self.lineEdit5.setText("")
         self.lineEdit6.setText("")
         if (self.label4.isEnabled() == True):
             self.label4.setVisible(True)
+        if (self.lineEdit8.isEnabled() == True):
+            self.lineEdit8.setVisible(True)
 
     def cargarVentanaInicial(self):
         self.resize(450, 350)
@@ -158,6 +168,7 @@ class Ventana(QtGui.QWidget):
         self.lineEdit4.hide()
         self.lineEdit5.hide()
         self.lineEdit6.hide()
+        self.lineEdit8.hide()
         self.button3.hide()
         self.button4.hide()
         self.button5.hide()
@@ -180,10 +191,8 @@ class Ventana(QtGui.QWidget):
             self.label1.setVisible(True)
         if (self.label2.isEnabled() == True):
             self.label2.setVisible(True)
-            if (self.label4.isEnabled() == True):
-                self.label4.setVisible(True)
-
-
+        if (self.label4.isEnabled() == True):
+            self.label4.setVisible(True)
 
 
 
@@ -213,6 +222,7 @@ class Ventana(QtGui.QWidget):
                 self.lineEdit4.hide()
                 self.lineEdit5.hide()
                 self.lineEdit6.hide()
+                self.lineEdit8.hide()
                 self.label4.move(90, 15)
                 self.label4.setText("Login Correcto")
                 self.button5.setVisible(True)
@@ -227,13 +237,13 @@ class Ventana(QtGui.QWidget):
         self.textEdit1.setVisible(True)
 
     def registrandoNuevoUsuario(self):
-        if(self.lineEdit1.text() != "" and self.lineEdit2.text() != "" and self.lineEdit3.text() != "" and self.lineEdit4.text() != "" and self.lineEdit5.text() != "" and self.lineEdit6.text() != "" ):
+        if(self.lineEdit1.text() != "" and self.lineEdit8.text() != "" and self.lineEdit3.text() != "" and self.lineEdit4.text() != "" and self.lineEdit5.text() != "" and self.lineEdit6.text() != "" ):
             nombreUsuario = str(self.lineEdit1.text())
-            direccionUsuario = str(self.lineEdit2.text())
-            municipioUsuario = str(self.lineEdit3.text())
-            estadoUsuario = str(self.lineEdit4.text())
-            correoUsuario= str(self.lineEdit5.text())
-            contrasenaUsuario = str(self.lineEdit6.text())
+            contrasenaUsuario = str(self.lineEdit8.text())
+            direccionUsuario = str(self.lineEdit3.text())
+            estadoUsuario = str(self.lineEdit5.text())
+            correoUsuario= str(self.lineEdit6.text())
+            municipioUsuario = str(self.lineEdit4.text())
             self.cursor.execute("""INSERT INTO usuario (username, direccion, municipio, estado, email, contrasena) VALUES('%s','%s','%s','%s','%s','%s')""" % (nombreUsuario,direccionUsuario, municipioUsuario, estadoUsuario, correoUsuario,contrasenaUsuario))
             self.conn.commit()
             self.registroCorrecto()
@@ -274,6 +284,7 @@ class Ventana(QtGui.QWidget):
         self.lineEdit5.hide()
         self.lineEdit6.hide()
         self.lineEdit7.hide()
+        self.lineEdit8.hide()
         self.button1.hide()
         self.button2.hide()
         self.button3.hide()
@@ -287,7 +298,6 @@ class Ventana(QtGui.QWidget):
         self.label3.setText("Registro Correcto")
         self.button7.setVisible(True)
         self.button7.move(86, 50)
-
 
 
 
