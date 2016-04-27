@@ -12,6 +12,8 @@ class Ventana(QtGui.QWidget):
 
         self.setWindowTitle("Biblioteca")
 
+        self.setMaximumSize(450, 350)
+        self.setMinimumSize(450, 350)
         self.resize(450, 350)
 
         ##Estableciendo conexion con la base de datos
@@ -46,12 +48,53 @@ class Ventana(QtGui.QWidget):
         self.button5 = QtGui.QPushButton("Aceptar", self)
 
         ##boton al entrar a la base de datos Ver Lista de Usuarios
-        self.button6 = QtGui.QPushButton("Ver Lista de Usuarios", self)
+        self.button6 = QtGui.QPushButton("Lista de Usuarios", self)
 
         ##Boton al registrar un usuario correcto Aceptar
         self.button7 = QtGui.QPushButton("Aceptar", self)
 
+
+
         ##Botones Base de Datos
+
+        self.tabla1 = QtGui.QTableWidget(self)
+        self.tabla1.hide()
+        self.myList1 = ["Usuario_id", "Nombre", "Direccion","Municipio","Estado","Email","Password"]
+        self.tabla1.setColumnCount(7)
+        self.tabla1.setGeometry(35, 90, 945, 240)
+        self.tabla1.setHorizontalHeaderLabels(self.myList1)
+        self.tabla1.verticalHeader().hide()
+        self.tabla1.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.tabla1.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.tabla1.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+
+        self.tabla1.setColumnWidth(0, 70)
+        self.tabla1.setColumnWidth(1, 180)
+        self.tabla1.setColumnWidth(2, 160)
+        self.tabla1.setColumnWidth(3, 120)
+        self.tabla1.setColumnWidth(4, 110)
+        self.tabla1.setColumnWidth(5, 180)
+        self.tabla1.setColumnWidth(6, 120)
+
+        self.tabla2 = QtGui.QTableWidget(self)
+        self.tabla2.hide()
+        self.myList2 = ["Libro_id", "Nombre", "Autor", "Edicion", "Año", "Editorial", "Disponibles"]
+        self.tabla2.setColumnCount(7)
+        self.tabla2.setGeometry(35, 380, 945, 240)
+        self.tabla2.setHorizontalHeaderLabels(self.myList2)
+        self.tabla2.verticalHeader().hide()
+        self.tabla2.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.tabla2.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.tabla2.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+
+        self.tabla2.setColumnWidth(0, 50)
+        self.tabla2.setColumnWidth(1, 260)
+        self.tabla2.setColumnWidth(2, 260)
+        self.tabla2.setColumnWidth(3, 50)
+        self.tabla2.setColumnWidth(4, 50)
+        self.tabla2.setColumnWidth(5, 180)
+        self.tabla2.setColumnWidth(6, 90)
+
         self.button8 = QtGui.QPushButton("Renovar libro", self)
         self.button9 = QtGui.QPushButton("Cerrar Sesion", self)
         self.button10 = QtGui.QPushButton("Buscar libro", self)
@@ -59,10 +102,11 @@ class Ventana(QtGui.QWidget):
         self.button12 = QtGui.QPushButton("Aceptar", self)
 
         ##Botones Unicamente Modo Admin
-        self.button13 = QtGui.QPushButton("Agregar nuevo libro", self)
-        self.button14 = QtGui.QPushButton("Modificar libro", self)
-        self.button15 = QtGui.QPushButton("Autorizar prestamo", self)
-        self.button16 = QtGui.QPushButton("Devolver prestamo", self)
+        self.button13 = QtGui.QPushButton("Autorizar prestamo", self)
+        self.button14 = QtGui.QPushButton("Devolver prestamo", self)
+        self.button15 = QtGui.QPushButton("Agregar libro", self)
+        self.button16 = QtGui.QPushButton("Modificar libro", self)
+        self.button17 = QtGui.QPushButton("Listar libros", self)
 
         self.lineEdit9 = QtGui.QLineEdit(self)
         self.lineEdit10 = QtGui.QLineEdit(self)
@@ -73,9 +117,6 @@ class Ventana(QtGui.QWidget):
         self.label11 = QtGui.QLabel("Usernamenndjhdjdjdjdjdjddhdhdh hdhd", self)
         self.label12 = QtGui.QLabel("Usernamenndjhdjdjdjdjdjddhdhdh hdhd", self)
         self.label13 = QtGui.QLabel("Usernamenndjhdjdjdjdjdjddhdhdh hdhd", self)
-        self.textEdit2 = QtGui.QTextEdit("", self)
-        self.textEdit2.setGeometry(20, 60, 650, 500)
-        self.textEdit2.hide()
 
         self.button8.hide()
         self.button9.hide()
@@ -86,6 +127,7 @@ class Ventana(QtGui.QWidget):
         self.button14.hide()
         self.button15.hide()
         self.button16.hide()
+        self.button17.hide()
         self.lineEdit9.hide()
         self.lineEdit10.hide()
         self.lineEdit11.hide()
@@ -109,10 +151,6 @@ class Ventana(QtGui.QWidget):
 
         ##Line Edit utilizada unicamente para password en ventana Registro de nuevo usuario
         self.lineEdit8 = QtGui.QLineEdit(self)
-
-        self.textEdit1 = QtGui.QTextEdit("",self)
-        self.textEdit1.setGeometry(20, 60, 650 , 500)
-        self.textEdit1.hide()
 
         self.label1.move(90, 90)
         self.label2.move(90, 120)
@@ -161,10 +199,20 @@ class Ventana(QtGui.QWidget):
         self.button6.clicked.connect(self.listarUsuarios)
         self.button7.clicked.connect(self.cargarVentanaInicial)
         self.button9.clicked.connect(self.cargarVentanaInicial)
+        self.button17.clicked.connect(self.listarLibros)
 
-        #self.cursor.execute("SELECT * from usuario")
+        #self.cursor.execute("SELECT * from libro")
         #renglon = self.cursor.fetchall()
         #print(renglon)
+
+
+
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
 
     def insertarNuevoUsuario(self):
 
@@ -186,6 +234,8 @@ class Ventana(QtGui.QWidget):
         self.label7.setText("Password")
         self.label7.move(65, 280)
         self.label8.hide()
+        self.setMaximumSize(550, 430)
+        self.setMinimumSize(550, 430)
         self.resize(550, 430)
         self.move(350, 150)
         self.lineEdit3.setVisible(True)
@@ -218,8 +268,10 @@ class Ventana(QtGui.QWidget):
             self.lineEdit8.setVisible(True)
 
     def cargarVentanaInicial(self):
-
+        self.setMaximumSize(450, 350)
+        self.setMinimumSize(450, 350)
         self.resize(450, 350)
+        self.center()
         self.label1.setText("Username")
         self.label2.setText("Password")
         self.label3.setText("Bienvenido al Sistema de Biblioteca")
@@ -251,6 +303,8 @@ class Ventana(QtGui.QWidget):
         self.button4.hide()
         self.button5.hide()
         self.button7.hide()
+        self.tabla1.hide()
+        self.tabla2.hide()
         self.button1.setVisible(True)
         self.button2.setVisible(True)
         self.lineEdit1.setGeometry(140, 100, 145, 20)
@@ -261,6 +315,11 @@ class Ventana(QtGui.QWidget):
         self.lineEdit4.setText("")
         self.lineEdit5.setText("")
         self.lineEdit6.setText("")
+
+        self.tabla1.clear()
+        self.tabla2.clear()
+        self.tabla1.setHorizontalHeaderLabels(self.myList1)
+        self.tabla2.setHorizontalHeaderLabels(self.myList2)
 
         ##Ocultar Interfaz De DB
         self.button6.hide()
@@ -273,13 +332,12 @@ class Ventana(QtGui.QWidget):
         self.button14.hide()
         self.button15.hide()
         self.button16.hide()
+        self.button17.hide()
         self.label9.hide()
         self.label10.hide()
         self.label11.hide()
         self.label12.hide()
         self.label13.hide()
-        self.textEdit1.hide()
-        self.textEdit2.hide()
         self.lineEdit9.hide()
         self.nombreDelUsuario = ""
 
@@ -298,7 +356,6 @@ class Ventana(QtGui.QWidget):
             self.label4.setVisible(True)
 
 
-
     def iniciarBase(self):
 
         nombre = "'"+str(self.lineEdit1.text()+"'")
@@ -311,6 +368,8 @@ class Ventana(QtGui.QWidget):
             if(str(self.lineEdit1.text()) == 'Victor Omar Jimenez Barajas' and str(self.lineEdit2.text()) == 'universidad'):
                 self.idUsuario = int(datos[0])
                 self.nombreDelUsuario += "Administrador"
+                self.setMaximumSize(250, 100)
+                self.setMinimumSize(250, 100)
                 self.resize(250, 100)
                 self.move(500, 250)
                 self.label2.hide()
@@ -339,6 +398,8 @@ class Ventana(QtGui.QWidget):
             elif(datos[1] == str(self.lineEdit1.text()) and datos[6] == str(self.lineEdit2.text())):
                 self.idUsuario = int(datos[0])
                 self.nombreDelUsuario += str(datos[1])
+                self.setMaximumSize(250, 100)
+                self.setMinimumSize(250, 100)
                 self.resize(250, 100)
                 self.move(500, 250)
                 self.label2.hide()
@@ -377,36 +438,63 @@ class Ventana(QtGui.QWidget):
 
 
     def interfazBaseDatos(self):
+
+        #Login Administrador
         if(self.nombreDelUsuario == 'Administrador'):
-            self.resize(850, 650)
-            self.move(200, 10)
+            self.setMaximumSize(1200, 680)
+            self.setMinimumSize(1200, 680)
+            self.resize(1200, 680)
+            self.move(0,0)
             self.label4.hide()
+            self.label8.hide()
             self.button5.hide()
             self.button6.setVisible(True)
-            self.textEdit1.setVisible(True)
-            self.textEdit1.setGeometry(40, 90, 560, 200)
-            self.textEdit2.setVisible(True)
-            self.textEdit2.setGeometry(40, 350, 560, 200)
+            self.button6.setGeometry(1010, 110, 105, 25)
+            self.button13.setGeometry(1010, 160, 105, 25)
+            self.button14.setGeometry(1010, 210, 105, 25)
+            self.button17.setGeometry(1010, 410, 80, 25)
+            self.button15.setGeometry(1010, 460, 80, 25)
+            self.button16.setGeometry(1010, 510, 80, 25)
+
             self.label9.setVisible(True)
             self.label9.setText("Usuarios Registrados")
             self.label10.setVisible(True)
             self.label10.setText("Libros registrados en la Biblioteca")
-            self.label9.setGeometry(45, 60, 200, 20)
-            self.label10.setGeometry(45, 320, 200, 20)
+            self.label9.setGeometry(38, 60, 200, 20)
+            self.label10.setGeometry(38, 350, 200, 20)
             self.button9.setVisible(True)
             self.button9.setGeometry(400, 20, 80, 20)
 
-
             if (self.label3.isEnabled() == True):
                 self.label3.setVisible(True)
+            if (self.tabla1.isEnabled() == True):
+                self.tabla1.setVisible(True)
+            if (self.tabla2.isEnabled() == True):
+                self.tabla2.setVisible(True)
+
             mensaje1 = "Bienvenido " + self.nombreDelUsuario
             self.label3.setText(mensaje1)
             self.label3.setGeometry(250, 20, 200, 20)
 
+            if (self.button13.isEnabled() == True):
+                self.button13.setVisible(True)
+            if (self.button14.isEnabled() == True):
+                self.button14.setVisible(True)
+            if (self.button15.isEnabled() == True):
+                self.button15.setVisible(True)
+            if (self.button16.isEnabled() == True):
+                self.button16.setVisible(True)
+            if (self.button17.isEnabled() == True):
+                self.button17.setVisible(True)
+
+        ##Login Usuario
         else:
+            self.setMaximumSize(850, 650)
+            self.setMinimumSize(850, 650)
             self.resize(850, 650)
             self.move(200, 10)
             self.label4.hide()
+            self.label8.hide()
 
             self.button5.hide()
             self.button6.hide()
@@ -416,13 +504,9 @@ class Ventana(QtGui.QWidget):
             self.button8.setGeometry(630, 100,80,25)
             self.button9.setGeometry(400, 20, 80, 20)
             self.button10.setGeometry(630, 360, 80, 25)
+
             self.lineEdit9.setGeometry(630, 400, 160, 20)
             self.lineEdit9.setVisible(True)
-            self.textEdit1.setVisible(True)
-            self.textEdit1.setGeometry(40, 90, 560, 200)
-            self.textEdit2.setVisible(True)
-            self.textEdit2.setGeometry(40, 350, 560, 200)
-
 
             if (self.label3.isEnabled() == True):
                 self.label3.setVisible(True)
@@ -434,6 +518,8 @@ class Ventana(QtGui.QWidget):
             self.label10.setVisible(True)
             self.label9.setGeometry(45, 60, 200, 20)
             self.label10.setGeometry(45, 320, 200, 20)
+            self.label9.setText("Mis prestamos de libros")
+            self.label10.setText("Libros disponibles en la Biblioteca")
 
 
     def registrandoNuevoUsuario(self):
@@ -452,25 +538,49 @@ class Ventana(QtGui.QWidget):
 
     def listarUsuarios(self):
 
-        self.textEdit1.clear()
         self.cursor.close()
         self.conn.close()
         self.conn = MySQLdb.connect(host="localhost", user="root", passwd="123456", db="library")
         self.cursor = self.conn.cursor()
         self.cursor.execute("SELECT * from usuario")
         renglon = self.cursor.fetchall()
+        self.tabla1.setRowCount(len(renglon))
+
         i = 0
         j =0
-        data = ""
 
         while(i<len(renglon)):
             j = 0
             while(j<7):
-                self.textEdit1.insertPlainText(str(renglon[i][j]))
-                self.textEdit1.insertPlainText(" || ")
+                data = str(renglon[i][j])
+                self.tabla1.setItem(i , j, QtGui.QTableWidgetItem(data))
+                self.tabla1.item(i,j).setTextAlignment(1012)
+
                 j = j+1
             i = i+1
-            self.textEdit1.insertPlainText("\n")
+
+
+    def listarLibros(self):
+
+        self.cursor.close()
+        self.conn.close()
+        self.conn = MySQLdb.connect(host="localhost", user="root", passwd="123456", db="library")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("SELECT * from libro")
+        renglon = self.cursor.fetchall()
+        self.tabla2.setRowCount(len(renglon))
+        i = 0
+        j = 0
+
+        while (i < len(renglon)):
+            j = 0
+            while (j < 7):
+                data = str(renglon[i][j])
+                self.tabla2.setItem(i, j, QtGui.QTableWidgetItem(data))
+                self.tabla2.item(i, j).setTextAlignment(1012)
+                j = j + 1
+            i = i + 1
+
 
     def registroCorrecto(self):
 
@@ -495,6 +605,8 @@ class Ventana(QtGui.QWidget):
         self.button5.hide()
         self.button6.hide()
         self.button7.setVisible(True)
+        self.setMaximumSize(250, 100)
+        self.setMinimumSize(250, 100)
         self.resize(250, 100)
         self.move(500, 250)
         self.label3.move(90, 15)
