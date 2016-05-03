@@ -980,30 +980,28 @@ class Ventana(QtGui.QWidget):
 
     def buscarLibro(self):
 
-        texto = self.lineEdit9.text()
-        self.cursor.execute("SELECT * from libro")
+        texto = "%"+self.lineEdit9.text()+"%"
+        self.cursor.execute("SELECT * from libro WHERE UPPER(nombre) LIKE '%s' OR UPPER(autor) LIKE '%s' " %(texto,texto))
         renglon = self.cursor.fetchall()
+
         i = 0
         j = 0
         renglonCount = 0
-        #self.tabla2.clear()
-        #self.tabla2.setHorizontalHeaderLabels(self.myList2)
         self.tabla2.setRowCount(0)
 
 
         for i in range(len(renglon)):
 
-            if(renglon[i][1] == texto):
+            filas = self.tabla2.rowCount()+1
+            self.tabla2.setRowCount(filas)
 
-                filas = self.tabla2.rowCount()+1
-                self.tabla2.setRowCount(filas)
+            for j in range(7):
 
-                for j in range(7):
-                    data = str(renglon[i][j])
-                    self.tabla2.setItem(renglonCount, j, QtGui.QTableWidgetItem(data))
-                    self.tabla2.item(renglonCount, j).setTextAlignment(1012)
+                data = str(renglon[i][j])
+                self.tabla2.setItem(renglonCount, j, QtGui.QTableWidgetItem(data))
+                self.tabla2.item(renglonCount, j).setTextAlignment(1012)
 
-                renglonCount = renglonCount+1
+            renglonCount = renglonCount+1
 
 
 
