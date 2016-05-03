@@ -4,7 +4,6 @@ from PyQt4 import QtGui
 
 import sys
 
-
 class Ventana(QtGui.QWidget):
 
     def __init__(self):
@@ -95,6 +94,26 @@ class Ventana(QtGui.QWidget):
         self.tabla2.setColumnWidth(5, 180)
         self.tabla2.setColumnWidth(6, 90)
 
+        self.tabla3 = QtGui.QTableWidget(self)
+        self.tabla3.hide()
+        self.myList3 = ["Libro_id", "Nombre", "Autor", "Edicion", "Año", "Editorial"]
+        self.tabla3.setColumnCount(6)
+        self.tabla3.setGeometry(35, 90, 945, 240)
+        self.tabla3.setHorizontalHeaderLabels(self.myList3)
+        self.tabla3.verticalHeader().hide()
+        self.tabla3.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.tabla3.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.tabla3.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+
+        self.tabla3.setColumnWidth(0, 60)
+        self.tabla3.setColumnWidth(1, 250)
+        self.tabla3.setColumnWidth(2, 250)
+        self.tabla3.setColumnWidth(3, 70)
+        self.tabla3.setColumnWidth(4, 70)
+        self.tabla3.setColumnWidth(5, 240)
+
+        self.button21 = QtGui.QPushButton("Listar mis libros", self)
+
         self.button8 = QtGui.QPushButton("Renovar libro", self)
         self.button9 = QtGui.QPushButton("Cerrar Sesion", self)
         self.button10 = QtGui.QPushButton("Buscar libro", self)
@@ -107,6 +126,11 @@ class Ventana(QtGui.QWidget):
         self.button15 = QtGui.QPushButton("Agregar libro", self)
         self.button16 = QtGui.QPushButton("Modificar libro", self)
         self.button17 = QtGui.QPushButton("Listar libros", self)
+        self.button18 = QtGui.QPushButton("Guardar Cambios", self)
+        self.button18.setGeometry(1100, 460, 90, 25)
+        self.button19 = QtGui.QPushButton("Guardar Cambios", self)
+        self.button19.setGeometry(1100, 510, 90, 25)
+
 
         self.lineEdit9 = QtGui.QLineEdit(self)
         self.lineEdit10 = QtGui.QLineEdit(self)
@@ -128,6 +152,8 @@ class Ventana(QtGui.QWidget):
         self.button15.hide()
         self.button16.hide()
         self.button17.hide()
+        self.button18.hide()
+        self.button19.hide()
         self.lineEdit9.hide()
         self.lineEdit10.hide()
         self.lineEdit11.hide()
@@ -137,6 +163,19 @@ class Ventana(QtGui.QWidget):
         self.label11.hide()
         self.label12.hide()
         self.label13.hide()
+
+        #Ventana Extra Movimienttos
+
+        self.label14 = QtGui.QLabel("Movimiento Exitoso", self)
+        self.label15 = QtGui.QLabel("Error el usuario ya tiene el libro", self)
+        self.label16 = QtGui.QLabel("Error el usuario no tiene el libro", self)
+        self.label17 = QtGui.QLabel("Error no hay libros disponibles", self)
+        self.button20 = QtGui.QPushButton("Aceptar", self)
+        self.label14.setGeometry(82,15,150, 20)
+        self.label15.setGeometry(55, 15,150,20)
+        self.label16.setGeometry(55, 15,150, 10)
+        self.label17.setGeometry(55, 15,150, 10)
+        self.button20.setGeometry(85,45,80, 30)
 
         self.lineEdit1 = QtGui.QLineEdit(self)
 
@@ -174,6 +213,7 @@ class Ventana(QtGui.QWidget):
         self.button5.hide()
         self.button6.hide()
         self.button7.hide()
+        self.button21.hide()
         self.lineEdit1.setGeometry(150, 90, 135, 20)
         self.lineEdit2.setGeometry(150, 120, 135, 20)
         self.lineEdit1.setText("")
@@ -185,6 +225,13 @@ class Ventana(QtGui.QWidget):
         self.lineEdit7.setText("")
         self.lineEdit8.setText("")
         self.pixmapa1 = QtGui.QPixmap("C:\\HelloW.jpg")
+
+        #Ocultando Ventana Extra
+        self.label14.hide()
+        self.label15.hide()
+        self.label16.hide()
+        self.label17.hide()
+        self.button20.hide()
 
 
         ##Colocando ambas LineEdit con propiedades de password unicamente
@@ -200,10 +247,21 @@ class Ventana(QtGui.QWidget):
         self.button7.clicked.connect(self.cargarVentanaInicial)
         self.button9.clicked.connect(self.cargarVentanaInicial)
         self.button17.clicked.connect(self.listarLibros)
+        self.button13.clicked.connect(self.autorizandoPrestamo)
+        self.button14.clicked.connect(self.devolviendoPrestamo)
+        self.button15.clicked.connect(self.agregandoLibro)
+        self.button16.clicked.connect(self.modificandoLibro)
+        self.button19.clicked.connect(self.agregarCambiosLibro)
+        self.button18.clicked.connect(self.agregarNuevoLibro)
+        self.button20.clicked.connect(self.aceptarMovimiento)
+        self.button21.clicked.connect(self.verMisLibrosUsuarioNormal)
+        self.button10.clicked.connect(self.buscarLibro)
 
         #self.cursor.execute("SELECT * from libro")
         #renglon = self.cursor.fetchall()
         #print(renglon)
+
+        self.show()
 
 
 
@@ -268,6 +326,7 @@ class Ventana(QtGui.QWidget):
             self.lineEdit8.setVisible(True)
 
     def cargarVentanaInicial(self):
+        self.lineEdit9.setText("")
         self.setMaximumSize(450, 350)
         self.setMinimumSize(450, 350)
         self.resize(450, 350)
@@ -305,6 +364,7 @@ class Ventana(QtGui.QWidget):
         self.button7.hide()
         self.tabla1.hide()
         self.tabla2.hide()
+        self.tabla3.hide()
         self.button1.setVisible(True)
         self.button2.setVisible(True)
         self.lineEdit1.setGeometry(140, 100, 145, 20)
@@ -318,8 +378,11 @@ class Ventana(QtGui.QWidget):
 
         self.tabla1.clear()
         self.tabla2.clear()
+        self.tabla3.clear()
         self.tabla1.setHorizontalHeaderLabels(self.myList1)
         self.tabla2.setHorizontalHeaderLabels(self.myList2)
+        self.tabla3.setHorizontalHeaderLabels(self.myList3)
+
 
         ##Ocultar Interfaz De DB
         self.button6.hide()
@@ -333,6 +396,15 @@ class Ventana(QtGui.QWidget):
         self.button15.hide()
         self.button16.hide()
         self.button17.hide()
+        self.button18.hide()
+        self.button19.hide()
+
+        self.label14.hide()
+        self.label15.hide()
+        self.label16.hide()
+        self.label17.hide()
+        self.button20.hide()
+
         self.label9.hide()
         self.label10.hide()
         self.label11.hide()
@@ -340,6 +412,7 @@ class Ventana(QtGui.QWidget):
         self.label13.hide()
         self.lineEdit9.hide()
         self.nombreDelUsuario = ""
+        self.button21.hide()
 
 
         if(self.lineEdit1.isEnabled() == True):
@@ -489,23 +562,25 @@ class Ventana(QtGui.QWidget):
 
         ##Login Usuario
         else:
-            self.setMaximumSize(850, 650)
-            self.setMinimumSize(850, 650)
-            self.resize(850, 650)
-            self.move(200, 10)
+            self.setMaximumSize(1200, 680)
+            self.setMinimumSize(1200, 680)
+            self.resize(1200, 680)
+            self.move(0, 0)
             self.label4.hide()
             self.label8.hide()
 
             self.button5.hide()
             self.button6.hide()
-            self.button8.setVisible(True)
+            #self.button8.setVisible(True)
             self.button9.setVisible(True)
             self.button10.setVisible(True)
-            self.button8.setGeometry(630, 100,80,25)
+            self.button21.setVisible(True)
+            self.button8.setGeometry(1000, 165,90,25)
             self.button9.setGeometry(400, 20, 80, 20)
-            self.button10.setGeometry(630, 360, 80, 25)
+            self.button10.setGeometry(1000, 405, 80, 25)
+            self.button21.setGeometry(1000, 115, 90, 25)
 
-            self.lineEdit9.setGeometry(630, 400, 160, 20)
+            self.lineEdit9.setGeometry(1000, 440, 160, 20)
             self.lineEdit9.setVisible(True)
 
             if (self.label3.isEnabled() == True):
@@ -516,10 +591,16 @@ class Ventana(QtGui.QWidget):
             self.label3.setGeometry(250, 20, 200, 20)
             self.label9.setVisible(True)
             self.label10.setVisible(True)
-            self.label9.setGeometry(45, 60, 200, 20)
-            self.label10.setGeometry(45, 320, 200, 20)
+            self.label9.setGeometry(38, 60, 200, 20)
+            self.label10.setGeometry(38, 350, 200, 20)
             self.label9.setText("Mis prestamos de libros")
             self.label10.setText("Libros disponibles en la Biblioteca")
+
+            if (self.tabla2.isEnabled() == True):
+                self.tabla2.setVisible(True)
+
+            if (self.tabla3.isEnabled() == True):
+                self.tabla3.setVisible(True)
 
 
     def registrandoNuevoUsuario(self):
@@ -614,11 +695,321 @@ class Ventana(QtGui.QWidget):
         self.button7.setVisible(True)
         self.button7.move(86, 50)
 
+    def autorizandoPrestamo(self):
+
+        i = 0
+        j = 0
+        k = 0
+        loTiene = 0
+
+        idUsuario = int(self.tabla1.item(self.tabla1.currentRow(),0).text())
+        idLibro   = int(self.tabla2.item(self.tabla2.currentRow(),0).text())
+
+        self.cursor.execute("SELECT * from prestamo")
+        DatosPrestamo = self.cursor.fetchall()
+
+        self.cursor.execute("SELECT * from usuario")
+        DatosUsuario = self.cursor.fetchall()
+
+        for j in range(len(DatosUsuario)):
+            if(DatosUsuario[j][0] == idUsuario):
+                break
+
+        self.cursor.execute("SELECT * from libro ")
+        DatosLibro = self.cursor.fetchall()
+
+        for i in range(len(DatosLibro)):
+            if(idLibro == DatosLibro[i][0]):
+
+                for k in range(len(DatosPrestamo)):
+                    if(DatosUsuario[j][0] == DatosPrestamo[k][0]):
+                        if(DatosLibro[i][0] == DatosPrestamo[k][1]):
+                            self.errorLoTiene()
+                            loTiene = 1
+                            break
+
+                if(DatosLibro[i][6] >= 1 and loTiene == 0):
+                    self.cursor.execute("""INSERT INTO prestamo (usuario_id, libro_id) VALUES(%d,%d)""" % (int(DatosUsuario[j][0]),int(DatosLibro[i][0])))
+                    self.conn.commit()
+                    self.cursor.execute("UPDATE libro set disponibles = %d WHERE libro_id = %d" % (int(DatosLibro[i][6]-1), int(DatosLibro[i][0])))
+                    self.conn.commit()
+                    self.movimientoExitoso()
+                    break
+
+                elif(loTiene == 0):
+                    self.errorNoHayDisponibles()
+                    break
+
+    def devolviendoPrestamo(self):
+
+        i = 0
+        j = 0
+        k = 0
+        loTiene = 0
+
+        idUsuario = int(self.tabla1.item(self.tabla1.currentRow(), 0).text())
+        idLibro = int(self.tabla2.item(self.tabla2.currentRow(), 0).text())
+
+        self.cursor.execute("SELECT * from prestamo")
+        DatosPrestamo = self.cursor.fetchall()
+
+        self.cursor.execute("SELECT * from usuario")
+        DatosUsuario = self.cursor.fetchall()
+
+        for j in range(len(DatosUsuario)):
+            if (DatosUsuario[j][0] == idUsuario):
+                break
+
+        self.cursor.execute("SELECT * from libro ")
+        DatosLibro = self.cursor.fetchall()
+
+        for i in range(len(DatosLibro)):
+            if (idLibro == DatosLibro[i][0]):
+
+                for k in range(len(DatosPrestamo)):
+                    if (DatosUsuario[j][0] == DatosPrestamo[k][0]):
+                        if (DatosLibro[i][0] == DatosPrestamo[k][1]):
+                            self.cursor.execute("DELETE FROM prestamo WHERE usuario_id=%d AND libro_id=%d" % (int(DatosUsuario[j][0]),int(DatosLibro[i][0])))
+                            loTiene = 1
+                            self.conn.commit()
+                            self.cursor.execute("UPDATE libro set disponibles = %d WHERE libro_id = %d" % (int(DatosLibro[i][6] + 1), int(DatosLibro[i][0])))
+                            self.conn.commit()
+                            self.movimientoExitoso()
+                            break
+
+
+        if(loTiene == 0):
+            self.errorNoLoTiene()
+
+
+
+    def agregandoLibro(self):
+        self.button18.setVisible(True)
+        if (self.button18.isEnabled() == True):
+            self.button18.setVisible(True)
+
+        self.tabla2.setEditTriggers(QtGui.QAbstractItemView.AllEditTriggers)
+        self.tabla2.setRowCount(self.tabla2.rowCount()+1)
+
+
+
+    def modificandoLibro(self):
+        self.button19.setVisible(True)
+        if (self.button19.isEnabled() == True):
+            self.button19.setVisible(True)
+        self.tabla2.setEditTriggers(QtGui.QAbstractItemView.AllEditTriggers)
+
+    def agregarNuevoLibro(self):
+        self.tabla2.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        dato2 = str(self.tabla2.item(self.tabla2.currentRow(),1).text())
+        dato3 = str(self.tabla2.item(self.tabla2.currentRow(),2).text())
+        dato4 = int(self.tabla2.item(self.tabla2.currentRow(),3).text())
+        dato5 = int(self.tabla2.item(self.tabla2.currentRow(),4).text())
+        dato6 = str(self.tabla2.item(self.tabla2.currentRow(),5).text())
+        dato7 = int(self.tabla2.item(self.tabla2.currentRow(),6).text())
+
+        self.cursor.execute("""INSERT INTO libro (nombre, autor, edicion, ano, editorial, disponibles) VALUES('%s','%s',%d,%d,'%s',%d)""" % (dato2, dato3, dato4, dato5, dato6, dato7))
+        self.conn.commit()
+        self.button18.hide()
+        self.movimientoExitoso()
+
+
+    def agregarCambiosLibro(self):
+        self.tabla2.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        dato1 = int(self.tabla2.item(self.tabla2.currentRow(), 0).text())
+        dato2 = str(self.tabla2.item(self.tabla2.currentRow(), 1).text())
+        dato3 = str(self.tabla2.item(self.tabla2.currentRow(), 2).text())
+        dato4 = int(self.tabla2.item(self.tabla2.currentRow(), 3).text())
+        dato5 = int(self.tabla2.item(self.tabla2.currentRow(), 4).text())
+        dato6 = str(self.tabla2.item(self.tabla2.currentRow(), 5).text())
+        dato7 = int(self.tabla2.item(self.tabla2.currentRow(), 6).text())
+        self.cursor.execute("UPDATE libro set nombre = '%s',autor='%s',edicion=%d,ano=%d,editorial='%s',disponibles=%d  WHERE libro_id = %d" % (dato2,dato3,dato4,dato5,dato6,dato7,dato1))
+        self.conn.commit()
+        self.button19.hide()
+        self.movimientoExitoso()
+
+
+    def movimientoExitoso(self):
+
+        self.setMaximumSize(250, 100)
+        self.setMinimumSize(250, 100)
+        self.resize(250, 100)
+        self.center()
+
+        self.label14.setVisible(True)
+        self.button20.setVisible(True)
+
+        self.button6.hide()
+        self.button9.hide()
+
+        self.button13.hide()
+        self.button14.hide()
+        self.button15.hide()
+        self.button16.hide()
+        self.button17.hide()
+
+        self.tabla1.hide()
+        self.tabla2.hide()
+
+        self.label10.hide()
+        self.label9.hide()
+        self.label3.hide()
+
+    def errorLoTiene(self):
+
+        self.setMaximumSize(250, 100)
+        self.setMinimumSize(250, 100)
+        self.resize(250, 100)
+        self.center()
+
+        self.label15.setVisible(True)
+        self.button20.setVisible(True)
+
+        self.button6.hide()
+        self.button9.hide()
+
+        self.button13.hide()
+        self.button14.hide()
+        self.button15.hide()
+        self.button16.hide()
+        self.button17.hide()
+
+        self.tabla1.hide()
+        self.tabla2.hide()
+
+        self.label10.hide()
+        self.label9.hide()
+        self.label3.hide()
+
+
+
+    def errorNoLoTiene(self):
+
+        self.setMaximumSize(250, 100)
+        self.setMinimumSize(250, 100)
+        self.resize(250, 100)
+        self.center()
+
+        self.label16.setVisible(True)
+        self.button20.setVisible(True)
+
+        self.button6.hide()
+        self.button9.hide()
+
+        self.button13.hide()
+        self.button14.hide()
+        self.button15.hide()
+        self.button16.hide()
+        self.button17.hide()
+
+        self.tabla1.hide()
+        self.tabla2.hide()
+
+        self.label10.hide()
+        self.label9.hide()
+        self.label3.hide()
+
+
+    def errorNoHayDisponibles(self):
+
+        self.setMaximumSize(250, 100)
+        self.setMinimumSize(250, 100)
+        self.resize(250, 100)
+        self.center()
+
+        self.label17.setVisible(True)
+        self.button20.setVisible(True)
+
+        self.button6.hide()
+        self.button9.hide()
+
+        self.button13.hide()
+        self.button14.hide()
+        self.button15.hide()
+        self.button16.hide()
+        self.button17.hide()
+
+        self.tabla1.hide()
+        self.tabla2.hide()
+
+        self.label10.hide()
+        self.label9.hide()
+        self.label3.hide()
+
+
+    def aceptarMovimiento(self):
+
+        self.label14.hide()
+        self.label15.hide()
+        self.label16.hide()
+        self.label17.hide()
+        self.button20.hide()
+        self.interfazBaseDatos()
+
+
+    def verMisLibrosUsuarioNormal(self):
+
+        self.cursor.close()
+        self.conn.close()
+        self.conn = MySQLdb.connect(host="localhost", user="root", passwd="123456", db="library")
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("SELECT usuario_id FROM usuario WHERE username='%s' " %(str(self.nombreDelUsuario)))
+        idDelusuario = self.cursor.fetchall()
+
+        self.cursor.execute("SELECT libro_id from prestamo WHERE usuario_id = %d" % (idDelusuario[0][0]))
+        idsLibros = self.cursor.fetchall()
+
+        self.cursor.execute("SELECT * from libro")
+        renglon = self.cursor.fetchall()
+
+        self.tabla3.setRowCount(len(idsLibros))
+        i = 0
+        j = 0
+        k = 0
+        renglonCount = 0
+
+        for j in range(len(renglon)):
+            for i in range(len(idsLibros)):
+                if(renglon[j][0] == idsLibros[i][0]):
+                    for k in range(6):
+                        data = str(renglon[j][k])
+                        self.tabla3.setItem(renglonCount, k, QtGui.QTableWidgetItem(data))
+                        self.tabla3.item(renglonCount, k).setTextAlignment(1012)
+
+                    renglonCount = renglonCount+1
+
+    def buscarLibro(self):
+
+        texto = self.lineEdit9.text()
+        self.cursor.execute("SELECT * from libro")
+        renglon = self.cursor.fetchall()
+        i = 0
+        j = 0
+        renglonCount = 0
+        #self.tabla2.clear()
+        #self.tabla2.setHorizontalHeaderLabels(self.myList2)
+        self.tabla2.setRowCount(0)
+
+
+        for i in range(len(renglon)):
+
+            if(renglon[i][1] == texto):
+
+                filas = self.tabla2.rowCount()+1
+                self.tabla2.setRowCount(filas)
+
+                for j in range(7):
+                    data = str(renglon[i][j])
+                    self.tabla2.setItem(renglonCount, j, QtGui.QTableWidgetItem(data))
+                    self.tabla2.item(renglonCount, j).setTextAlignment(1012)
+
+                renglonCount = renglonCount+1
+
+
+
 
 app = QtGui.QApplication(sys.argv)
-
 ventana = Ventana()
-ventana.show()
 sys.exit(app.exec_())
 ventana.cursor.close()
 ventana.conn.close()
