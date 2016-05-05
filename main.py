@@ -45,6 +45,7 @@ class Ventana(QtGui.QWidget):
 
         ##boton al loguearse como usuario correcto Aceptar
         self.button5 = QtGui.QPushButton("Aceptar", self)
+        self.button5.move(86, 50)
 
         ##boton al entrar a la base de datos Ver Lista de Usuarios
         self.button6 = QtGui.QPushButton("Lista de Usuarios", self)
@@ -92,7 +93,7 @@ class Ventana(QtGui.QWidget):
         self.tabla2.setColumnWidth(3, 50)
         self.tabla2.setColumnWidth(4, 50)
         self.tabla2.setColumnWidth(5, 180)
-        self.tabla2.setColumnWidth(6, 90)
+        self.tabla2.setColumnWidth(6, 75)
 
         self.tabla3 = QtGui.QTableWidget(self)
         self.tabla3.hide()
@@ -104,6 +105,8 @@ class Ventana(QtGui.QWidget):
         self.tabla3.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.tabla3.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.tabla3.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+
+
 
         self.tabla3.setColumnWidth(0, 60)
         self.tabla3.setColumnWidth(1, 250)
@@ -136,6 +139,7 @@ class Ventana(QtGui.QWidget):
         self.lineEdit10 = QtGui.QLineEdit(self)
         self.lineEdit11 = QtGui.QLineEdit(self)
         self.lineEdit12 = QtGui.QLineEdit(self)
+
         self.label9 = QtGui.QLabel("Mis prestamos de libros", self)
         self.label10 = QtGui.QLabel("Libros disponibles en la Biblioteca", self)
         self.label11 = QtGui.QLabel("Usernamenndjhdjdjdjdjdjddhdhdh hdhd", self)
@@ -256,6 +260,11 @@ class Ventana(QtGui.QWidget):
         self.button20.clicked.connect(self.aceptarMovimiento)
         self.button21.clicked.connect(self.verMisLibrosUsuarioNormal)
         self.button10.clicked.connect(self.buscarLibro)
+        self.lineEdit9.returnPressed.connect(self.buscarLibro)
+        self.button5.setAutoDefault(True)
+        self.button20.setAutoDefault(True)
+
+
 
         #self.cursor.execute("SELECT * from libro")
         #renglon = self.cursor.fetchall()
@@ -326,6 +335,11 @@ class Ventana(QtGui.QWidget):
             self.lineEdit8.setVisible(True)
 
     def cargarVentanaInicial(self):
+
+        self.tabla1.setRowCount(0)
+        self.tabla2.setRowCount(0)
+        self.tabla3.setRowCount(0)
+
         self.lineEdit9.setText("")
         self.setMaximumSize(450, 350)
         self.setMinimumSize(450, 350)
@@ -465,7 +479,6 @@ class Ventana(QtGui.QWidget):
                 self.label4.move(90, 15)
                 self.label4.setText("Login Correcto")
                 self.button5.setVisible(True)
-                self.button5.move(86, 50)
 
 
             elif(datos[1] == str(self.lineEdit1.text()) and datos[6] == str(self.lineEdit2.text())):
@@ -495,7 +508,6 @@ class Ventana(QtGui.QWidget):
                 self.label4.move(90, 15)
                 self.label4.setText("Login Correcto")
                 self.button5.setVisible(True)
-                self.button5.move(86, 50)
 
             else:
                 if (self.label8.isEnabled() == True):
@@ -628,7 +640,7 @@ class Ventana(QtGui.QWidget):
         self.tabla1.setRowCount(len(renglon))
 
         i = 0
-        j =0
+        j = 0
 
         while(i<len(renglon)):
             j = 0
